@@ -582,12 +582,15 @@ namespace UnityEngine.Rendering.HighDefinition
             && maximumLODLevelMode.Equals(((FrameSettings)obj).maximumLODLevelMode);
         
         public override int GetHashCode()
-            => -1690259335
-            + bitDatas.GetHashCode()
-            + lodBias.GetHashCode()
-            + lodBiasMode.GetHashCode()
-            + maximumLODLevel.GetHashCode()
-            + maximumLODLevelMode.GetHashCode();
+        {
+            var hashCode = 1474027755;
+            hashCode = hashCode * -1521134295 + bitDatas.GetHashCode();
+            hashCode = hashCode * -1521134295 + lodBias.GetHashCode();
+            hashCode = hashCode * -1521134295 + lodBiasMode.GetHashCode();
+            hashCode = hashCode * -1521134295 + maximumLODLevel.GetHashCode();
+            hashCode = hashCode * -1521134295 + maximumLODLevelMode.GetHashCode();
+            return hashCode;
+        }
 
         #region DebuggerDisplay
 
