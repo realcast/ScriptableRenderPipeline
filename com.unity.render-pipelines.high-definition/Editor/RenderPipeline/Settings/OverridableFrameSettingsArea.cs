@@ -83,6 +83,10 @@ namespace UnityEditor.Rendering.HighDefinition
         public void AmmendInfo(FrameSettingsField field, Func<bool> overrideable = null, Func<object> customGetter = null, Action<object> customSetter = null, object overridedDefaultValue = null, Func<bool> customOverrideable = null)
         {
             var matchIndex = fields.FindIndex(f => f.field == field);
+
+            if (matchIndex == -1)
+                throw new FrameSettingsNotFoundInGroupException("This FrameSettings' group do not contain this field. Be sure that the group parameter of the FrameSettingsFieldAttribute match this OverridableFrameSettingsArea groupIndex.");
+
             var match = fields[matchIndex];
             if (overrideable != null)
                 match.overrideable = overrideable;
@@ -318,5 +322,12 @@ namespace UnityEditor.Rendering.HighDefinition
                 GUILayout.FlexibleSpace();
             }
         }
+    }
+
+    class FrameSettingsNotFoundInGroupException : Exception
+    {
+        public FrameSettingsNotFoundInGroupException(string message)
+            : base(message)
+        { }
     }
 }
