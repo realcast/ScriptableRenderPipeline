@@ -194,11 +194,7 @@ namespace UnityEngine.Rendering.Universal
                 return;
             }
 
-#if UNITY_EDITOR
-            string tag = camera.name;
-#else
             string tag = k_RenderCameraTag;
-#endif
             CommandBuffer cmd = CommandBufferPool.Get(tag);
             using (new ProfilingSample(cmd, tag))
             {
