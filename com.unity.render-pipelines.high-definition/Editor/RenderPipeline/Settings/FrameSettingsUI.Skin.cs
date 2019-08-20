@@ -9,7 +9,7 @@ namespace UnityEditor.Rendering.HighDefinition
 
         const string renderingSettingsHeaderContent = "Rendering";
         const string lightSettingsHeaderContent = "Lighting";
-        const string asyncComputeSettingsHeaderContent = "Async Compute";
-        const string lightLoopSettingsHeaderContent = "Light Loop";
+        const string asyncComputeSettingsHeaderContent = "Asynchronous Compute Shaders";
+        const string lightLoopSettingsHeaderContent = "Light Loop Debug";
     }
 }

@@ -159,9 +159,9 @@ namespace UnityEngine.Rendering.HighDefinition
                     throw new ArgumentException("Unknown ObsoleteLitShaderMode");
             }
 
-            newFrameSettingsFormat.SetEnabled(FrameSettingsField.Shadow, oldFrameSettingsFormat.enableShadow);
+            newFrameSettingsFormat.SetEnabled(FrameSettingsField.ShadowMaps, oldFrameSettingsFormat.enableShadow);
             newFrameSettingsFormat.SetEnabled(FrameSettingsField.ContactShadows, oldFrameSettingsFormat.enableContactShadows);
-            newFrameSettingsFormat.SetEnabled(FrameSettingsField.ShadowMask, oldFrameSettingsFormat.enableShadowMask);
+            newFrameSettingsFormat.SetEnabled(FrameSettingsField.Shadowmask, oldFrameSettingsFormat.enableShadowMask);
             newFrameSettingsFormat.SetEnabled(FrameSettingsField.SSR, oldFrameSettingsFormat.enableSSR);
             newFrameSettingsFormat.SetEnabled(FrameSettingsField.SSAO, oldFrameSettingsFormat.enableSSAO);
             newFrameSettingsFormat.SetEnabled(FrameSettingsField.SubsurfaceScattering, oldFrameSettingsFormat.enableSubsurfaceScattering);
@@ -211,13 +211,13 @@ namespace UnityEngine.Rendering.HighDefinition
                     switch(val)
                     {
                         case ObsoleteFrameSettingsOverrides.Shadow:
-                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.Shadow] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.ShadowMaps] = true;
                             break;
                         case ObsoleteFrameSettingsOverrides.ContactShadow:
                             newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.ContactShadows] = true;
                             break;
                         case ObsoleteFrameSettingsOverrides.ShadowMask:
-                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.ShadowMask] = true;
+                            newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.Shadowmask] = true;
                             break;
                         case ObsoleteFrameSettingsOverrides.SSR:
                             newFrameSettingsOverrideMask.mask[(int)FrameSettingsField.SSR] = true;
