@@ -572,17 +572,22 @@ namespace UnityEditor.Experimental.Rendering.Universal
 
         public override void OnInspectorGUI()
         {
-            UniversalRenderPipeline pipeline = UnityEngine.Rendering.RenderPipelineManager.currentPipeline as UniversalRenderPipeline;
-            if (pipeline == null)
-            {
-                EditorGUILayout.HelpBox(Styles.renderPipelineUnassignedWarning);
-                return;
-            }
+            UniversalRenderPipelineAsset asset = UniversalRenderPipeline.asset;
 
-            Renderer2DData assetData = Renderer2DData.m_Renderer2DDataInstance;
-            if (assetData == null)
+            if (asset != null)
             {
-                EditorGUILayout.HelpBox(Styles.asset2DUnassignedWarning);
+                Renderer2DData assetData = asset.scriptableRendererData as Renderer2DData;
+                if (assetData == null)
+                    assetData = Renderer2DData.m_Renderer2DDataInstance;
+
+                if (assetData == null)
+                {
+                    EditorGUILayout.HelpBox(Styles.asset2DUnassignedWarning);
+                    return;
+                }
+            }
+            else
+            {
                 return;
             }
 

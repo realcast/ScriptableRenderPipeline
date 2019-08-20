@@ -71,10 +71,13 @@ namespace UnityEditor.Experimental.Rendering.Universal
             //AnalyticsTrackChanges(updateSelectionData.serializedObject);
             layerSelectionData.serializedObject.ApplyModifiedProperties();
 
-            foreach (Light2D light in layerSelectionData.targets)
+            if (layerSelectionData.targets is Light2D[])
             {
-                if (light != null && light.lightType == Light2D.LightType.Global)
-                    light.ErrorIfDuplicateGlobalLight();
+                foreach (Light2D light in layerSelectionData.targets)
+                {
+                    if (light != null && light.lightType == Light2D.LightType.Global)
+                        light.ErrorIfDuplicateGlobalLight();
+                }
             }
         }
 
@@ -132,8 +135,8 @@ namespace UnityEditor.Experimental.Rendering.Universal
                 menu.allowDuplicateNames = true;
 
                 LayerSelectionData layerSelectionData = new LayerSelectionData(serializedObject, 0, targets);
-                menu.AddItem(Styles.sortingLayerNone, m_ApplyToSortingLayersList.Count == 0, OnNoSortingLayerSelected, serializedObject);
-                menu.AddItem(Styles.sortingLayerAll, m_ApplyToSortingLayersList.Count == m_AllSortingLayers.Length, OnAllSortingLayersSelected, serializedObject);
+                menu.AddItem(Styles.sortingLayerNone, m_ApplyToSortingLayersList.Count == 0, OnNoSortingLayerSelected, layerSelectionData);
+                menu.AddItem(Styles.sortingLayerAll, m_ApplyToSortingLayersList.Count == m_AllSortingLayers.Length, OnAllSortingLayersSelected, layerSelectionData);
                 menu.AddSeparator("");
 
                 for (int i = 0; i < m_AllSortingLayers.Length; ++i)

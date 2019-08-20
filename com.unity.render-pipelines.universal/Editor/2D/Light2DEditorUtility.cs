@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.Experimental.Rendering.Universal;
 
 namespace UnityEditor.Experimental.Rendering.Universal
 {
@@ -88,6 +89,25 @@ namespace UnityEditor.Experimental.Rendering.Universal
             }
             else
                 return 0;
+        }
+
+
+        internal static bool IsUsing2DRenderer()
+        {
+            UniversalRenderPipelineAsset asset = UniversalRenderPipeline.asset;
+            if (asset != null)
+            {
+                Renderer2DData assetData = asset.scriptableRendererData as Renderer2DData;
+                if (assetData == null)
+                    assetData = Renderer2DData.m_Renderer2DDataInstance;
+
+                return assetData != null;
+            }
+            else
+            {
+                return false;
+            }
+
         }
     }
 }

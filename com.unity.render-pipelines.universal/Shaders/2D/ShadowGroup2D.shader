@@ -141,11 +141,7 @@ Shader "Hidden/ShadowGroup2D"
 
             float4 frag (v2f i) : SV_Target
             {
-                float4 main = tex2D(_MainTex, i.uv);
-				float4 col = i.color;
-                col.r = 1;
-                col.g = 0.5 * main.a;
-                return col;
+                return i.color;
             }
             ENDHLSL
         }
