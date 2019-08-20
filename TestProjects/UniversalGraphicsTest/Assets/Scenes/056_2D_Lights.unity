@@ -303,7 +303,7 @@ MonoBehaviour:
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_RendererOverrideOption: 0
-  m_RendererData: {fileID: 11400000, guid: bb02708e1aa6d0841aa1fe0aa087141f, type: 2}
+  m_RendererData: {fileID: 11400000, guid: d5955759d603da64a9b41edf667c7011, type: 2}
   m_VolumeLayerMask:
     serializedVersion: 2
     m_Bits: 1
