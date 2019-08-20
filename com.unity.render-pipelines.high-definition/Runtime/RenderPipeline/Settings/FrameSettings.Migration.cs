@@ -358,26 +358,26 @@ namespace UnityEngine.Rendering.HighDefinition
 
         internal static void MigrateToDefaultReflectionSettings(ref FrameSettings cameraFrameSettings)
         {
-            cameraFrameSettings.SetEnabled(FrameSettingsField.EnableReflectionProbe, true);
-            cameraFrameSettings.SetEnabled(FrameSettingsField.EnablePlanarProbe, true);
+            cameraFrameSettings.SetEnabled(FrameSettingsField.ReflectionProbe, true);
+            cameraFrameSettings.SetEnabled(FrameSettingsField.PlanarProbe, true);
             cameraFrameSettings.SetEnabled(FrameSettingsField.ReplaceDiffuseForIndirect, false);
-            cameraFrameSettings.SetEnabled(FrameSettingsField.EnableSkyLighting, true);
+            cameraFrameSettings.SetEnabled(FrameSettingsField.SkyLighting, true);
         }
         
         internal static void MigrateToNoReflectionRealtimeSettings(ref FrameSettings cameraFrameSettings)
         {
-            cameraFrameSettings.SetEnabled(FrameSettingsField.EnableReflectionProbe, true);
-            cameraFrameSettings.SetEnabled(FrameSettingsField.EnablePlanarProbe, false);
+            cameraFrameSettings.SetEnabled(FrameSettingsField.ReflectionProbe, true);
+            cameraFrameSettings.SetEnabled(FrameSettingsField.PlanarProbe, false);
             cameraFrameSettings.SetEnabled(FrameSettingsField.ReplaceDiffuseForIndirect, false);
-            cameraFrameSettings.SetEnabled(FrameSettingsField.EnableSkyLighting, true);
+            cameraFrameSettings.SetEnabled(FrameSettingsField.SkyLighting, true);
         }
 
         internal static void MigrateToNoReflectionSettings(ref FrameSettings cameraFrameSettings)
         {
-            cameraFrameSettings.SetEnabled(FrameSettingsField.EnableReflectionProbe, false);
-            cameraFrameSettings.SetEnabled(FrameSettingsField.EnablePlanarProbe, false);
+            cameraFrameSettings.SetEnabled(FrameSettingsField.ReflectionProbe, false);
+            cameraFrameSettings.SetEnabled(FrameSettingsField.PlanarProbe, false);
             cameraFrameSettings.SetEnabled(FrameSettingsField.ReplaceDiffuseForIndirect, true);
-            cameraFrameSettings.SetEnabled(FrameSettingsField.EnableSkyLighting, false);            
+            cameraFrameSettings.SetEnabled(FrameSettingsField.SkyLighting, false);            
         }
 
         internal static void MigrateToPostProcess(ref FrameSettings cameraFrameSettings)

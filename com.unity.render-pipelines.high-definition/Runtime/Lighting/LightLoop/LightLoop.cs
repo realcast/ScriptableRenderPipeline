@@ -2149,10 +2149,10 @@ namespace UnityEngine.Rendering.HighDefinition
                     UpdateSortKeysArray(probeCount);
                     sortCount = 0;
 
-                    var enableReflectionProbes =    hdCamera.frameSettings.IsEnabled(FrameSettingsField.EnableReflectionProbe) &&
+                    var enableReflectionProbes =    hdCamera.frameSettings.IsEnabled(FrameSettingsField.ReflectionProbe) &&
                                                     (!hasDebugLightFilter || debugLightFilter.IsEnabledFor(ProbeSettings.ProbeType.ReflectionProbe));
 
-                    var enablePlanarProbes =    hdCamera.frameSettings.IsEnabled(FrameSettingsField.EnablePlanarProbe) &&
+                    var enablePlanarProbes =    hdCamera.frameSettings.IsEnabled(FrameSettingsField.PlanarProbe) &&
                                                 (!hasDebugLightFilter || debugLightFilter.IsEnabledFor(ProbeSettings.ProbeType.PlanarProbe));
 
                     for (int probeIndex = 0, numProbes = totalProbes; (probeIndex < numProbes) && (sortCount < probeCount); probeIndex++)

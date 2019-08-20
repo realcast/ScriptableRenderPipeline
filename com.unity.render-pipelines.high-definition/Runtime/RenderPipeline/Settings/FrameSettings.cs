@@ -99,32 +99,33 @@ namespace UnityEngine.Rendering.HighDefinition
         DepthPrepassWithDeferredRendering = 1,
         [FrameSettingsField(0, displayedName: "Clear GBuffers", positiveDependencies: new[] { LitShaderMode }, customOrderInGroup: 2)]
         ClearGBuffers = 5,
-        [FrameSettingsField(0, displayedName: "MSAA within Forward", negativeDependencies: new[] { LitShaderMode }, customOrderInGroup: 2)]
+        [FrameSettingsField(0, displayedName: "MSAA within Forward", negativeDependencies: new[] { LitShaderMode }, customOrderInGroup: 3)]
         MSAA = 31,
-        [FrameSettingsField(0, autoName: OpaqueObjects, customOrderInGroup: 3)]
+        [FrameSettingsField(0, autoName: OpaqueObjects, customOrderInGroup: 4)]
         OpaqueObjects = 2,
-        [FrameSettingsField(0, autoName: TransparentObjects)]
+        [FrameSettingsField(0, autoName: TransparentPrepass, customOrderInGroup: 5)]
+        TransparentPrepass = 8,
+        [FrameSettingsField(0, autoName: TransparentObjects, customOrderInGroup: 6)]
         TransparentObjects = 3,
-        [FrameSettingsField(0, autoName: RealtimePlanarReflection)]
+        [FrameSettingsField(0, autoName: TransparentPostpass, customOrderInGroup: 7)]
+        TransparentPostpass = 9,
+        [FrameSettingsField(0, autoName: RealtimePlanarReflection, customOrderInGroup: 8)]
         RealtimePlanarReflection = 4,
 
-        [FrameSettingsField(0, autoName: TransparentPrepass)]
-        TransparentPrepass = 8,
-        [FrameSettingsField(0, autoName: TransparentPostpass)]
-        TransparentPostpass = 9,
-        [FrameSettingsField(0, displayedName: "Transparent Write Motion Vectors", customOrderInGroup: 7)]
-        TransparentsWriteMotionVector = 16,
-        [FrameSettingsField(0, autoName: MotionVectors)]
+        [FrameSettingsField(0, autoName: MotionVectors, customOrderInGroup: 9)]
         MotionVectors = 10,
-        [FrameSettingsField(0, autoName: ObjectMotionVectors, positiveDependencies: new[] { MotionVectors })]
+        [FrameSettingsField(0, autoName: ObjectMotionVectors, positiveDependencies: new[] { MotionVectors }, customOrderInGroup: 10)]
         ObjectMotionVectors = 11,
-        [FrameSettingsField(0, autoName: Decals)]
+        [FrameSettingsField(0, displayedName: "Transparent Write Motion Vectors", customOrderInGroup: 11)]
+        TransparentsWriteMotionVector = 16,
+
+        [FrameSettingsField(0, autoName: Decals, customOrderInGroup: 12)]
         Decals = 12,
         [FrameSettingsField(0, autoName: RoughRefraction)]
         RoughRefraction = 13,
         [FrameSettingsField(0, autoName: Distortion)]
         Distortion = 14,
-        [FrameSettingsField(0, autoName: Postprocess)]
+        [FrameSettingsField(0, displayedName: "Post-process")]
         Postprocess = 15,
         [FrameSettingsField(0, displayedName: "Stop NaN", positiveDependencies: new[] { Postprocess }, customOrderInGroup: 15)]
         StopNaN = 80,
@@ -150,11 +151,11 @@ namespace UnityEngine.Rendering.HighDefinition
         Dithering = 90,
         [FrameSettingsField(0, autoName: Antialiasing, positiveDependencies: new[] { Postprocess }, customOrderInGroup: 15)]
         Antialiasing = 91,
-        [FrameSettingsField(0, autoName: AfterPostprocess, customOrderInGroup: 16)]
+        [FrameSettingsField(0, displayedName: "After Post-process", customOrderInGroup: 16)]
         AfterPostprocess = 17,
         [FrameSettingsField(0, autoName: LowResTransparent)]
         LowResTransparent = 18,
-        [FrameSettingsField(0, displayedName: "ZTest For After PostProcess", tooltip: "When enabled, Cameras that don't use TAA process a depth test for Materials in the AfterPostProcess rendering pass.")]
+        [FrameSettingsField(0, displayedName: "ZTest For After Post-Process", tooltip: "When enabled, Cameras that don't use TAA process a depth test for Materials in the AfterPostProcess rendering pass.")]
         ZTestAfterPostProcessTAA = 19,
 
         //lighting settings from 20 to 39
@@ -184,14 +185,14 @@ namespace UnityEngine.Rendering.HighDefinition
         LightLayers = 30,
         [FrameSettingsField(1, autoName: ExposureControl, customOrderInGroup: 32)]
         ExposureControl = 32,
-        [FrameSettingsField(1, autoName: EnableReflectionProbe, customOrderInGroup: 33)]
-        EnableReflectionProbe = 33,
-        [FrameSettingsField(1, autoName: EnablePlanarProbe, customOrderInGroup: 34)]
-        EnablePlanarProbe = 35,
-        [FrameSettingsField(1, autoName: ReplaceDiffuseForIndirect, customOrderInGroup: 35)]
+        [FrameSettingsField(1, autoName: ReflectionProbe)]
+        ReflectionProbe = 33,
+        [FrameSettingsField(1, autoName: PlanarProbe, customOrderInGroup: 35)]
+        PlanarProbe = 35,
+        [FrameSettingsField(1, autoName: ReplaceDiffuseForIndirect)]
         ReplaceDiffuseForIndirect = 36,
-        [FrameSettingsField(1, autoName: EnableSkyLighting, customOrderInGroup: 36)]
-        EnableSkyLighting = 37,
+        [FrameSettingsField(1, autoName: SkyLighting)]
+        SkyLighting = 37,
 
         //async settings from 40 to 59
         [FrameSettingsField(2, autoName: AsyncCompute)]
@@ -311,9 +312,9 @@ namespace UnityEngine.Rendering.HighDefinition
                 (uint)FrameSettingsField.FPTLForForwardOpaque,
                 (uint)FrameSettingsField.BigTilePrepass,
                 (uint)FrameSettingsField.TransparentsWriteMotionVector,
-                (uint)FrameSettingsField.EnableReflectionProbe,
-                (uint)FrameSettingsField.EnablePlanarProbe,
-                (uint)FrameSettingsField.EnableSkyLighting,
+                (uint)FrameSettingsField.ReflectionProbe,
+                (uint)FrameSettingsField.PlanarProbe,
+                (uint)FrameSettingsField.SkyLighting,
             }),
             lodBias = 1,
         };
@@ -359,8 +360,8 @@ namespace UnityEngine.Rendering.HighDefinition
                 (uint)FrameSettingsField.ComputeMaterialVariants,
                 (uint)FrameSettingsField.FPTLForForwardOpaque,
                 (uint)FrameSettingsField.BigTilePrepass,
-                (uint)FrameSettingsField.EnableReflectionProbe,
-                (uint)FrameSettingsField.EnableSkyLighting,
+                (uint)FrameSettingsField.ReflectionProbe,
+                (uint)FrameSettingsField.SkyLighting,
             }),
             lodBias = 1,
         };
