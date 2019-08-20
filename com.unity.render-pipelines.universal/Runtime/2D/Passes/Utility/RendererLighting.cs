@@ -179,7 +179,6 @@ namespace UnityEngine.Experimental.Rendering.Universal
 
                             if (shadowCasters != null)
                             {
-                                // Draw the shadow casting group first, then draw the silhouttes..
                                 for (int i = 0; i < shadowCasters.Count; i++)
                                 {
                                     LightReactor2D shadowCaster = (LightReactor2D)shadowCasters[i];
@@ -192,22 +191,11 @@ namespace UnityEngine.Experimental.Rendering.Universal
 
                                         //// Check to see if our shadow caster is inside the lights bounds...
                                         //if (sqDist < (shadowRadiusSq + lightRadiusSq))
-                                        if (shadowCaster.castsShadows && shadowCaster.castsShadows)
+                                        if(shadowCaster.castsShadows && shadowCaster.castsShadows)
                                             cmdBuffer.DrawMesh(shadowCaster.mesh, Matrix4x4.TRS(shadowCaster.transform.position, shadowCaster.transform.rotation, shadowCaster.transform.lossyScale), shadowMaterial);
-                                    }
-                                    else
-                                    {
-                                        Debug.Log("Problem with shadow caster being deleted but not removed from group");
-                                    }
-                                }
 
-                                for (int i = 0; i < shadowCasters.Count; i++)
-                                {
-                                    LightReactor2D shadowCaster = (LightReactor2D)shadowCasters[i];
 
-                                    if (shadowCaster != null && shadowMaterial != null && shadowCaster.IsShadowedLayer(layerToRender))
-                                    {
-                                        if (shadowCaster.useRendererSilhouette) 
+                                        if(shadowCaster.useRendererSilhouette) 
                                         {
                                             Renderer renderer = shadowCaster.GetComponent<Renderer>();
                                             if (renderer != null)
@@ -224,6 +212,10 @@ namespace UnityEngine.Experimental.Rendering.Universal
                                             if (!shadowCaster.selfShadows)
                                                 cmdBuffer.DrawMesh(shadowCaster.mesh, meshMat, removeSelfShadowMaterial);
                                         }
+                                    }
+                                    else
+                                    {
+                                        Debug.Log("Problem with shadow caster being deleted but not removed from group");
                                     }
                                 }
 
