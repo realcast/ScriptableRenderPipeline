@@ -17,7 +17,45 @@ namespace UnityEditor.Rendering
             All = Left | Up | Right | Down
         }
 
-        static readonly int k_RadiusHandleHash = "RadiusHandleHash".GetHashCode();
+        static readonly Vector3[] directionalLightHandlesRayPositions =
+        {
+            new Vector3(1, 0, 0),
+            new Vector3(-1, 0, 0),
+            new Vector3(0, 1, 0),
+            new Vector3(0, -1, 0),
+            new Vector3(1, 1, 0).normalized,
+            new Vector3(1, -1, 0).normalized,
+            new Vector3(-1, 1, 0).normalized,
+            new Vector3(-1, -1, 0).normalized
+        };
+
+        /// <summary>
+        /// Draw a gizmo for a directional light.
+        /// </summary>
+        /// <param name="light">The light that is used for this gizmo.</param>
+        public static void DrawDirectionalLightGizmo(Light light)
+        {
+            // Sets the color of the Gizmo.
+            Color outerColor = GetLightAboveObjectWireframeColor(light.color);
+
+            Vector3 lightPos = light.transform.position;
+            float lightSize;
+            using (new Handles.DrawingScope(Matrix4x4.identity))    //be sure no matrix affect the size computation
+            {
+                lightSize = HandleUtility.GetHandleSize(lightPos);
+            }
+            float radius = lightSize * 0.2f;
+
+            using (new Handles.DrawingScope(outerColor))
+            {
+                Handles.DrawWireDisc(Vector3.zero, Vector3.forward, radius);
+                foreach (Vector3 normalizedPos in directionalLightHandlesRayPositions)
+                {
+                    Vector3 pos = normalizedPos * radius;
+                    Handles.DrawLine(pos, pos + new Vector3(0, 0, lightSize));
+                }
+            }
+        }
 
         /// <summary>
         /// Draw a gizmo for a point light.
@@ -70,22 +108,22 @@ namespace UnityEditor.Rendering
                 switch (GUIUtility.hotControl - firstControl)
                 {
                     case 0:
-                        labelPosition = Vector3.right * (light.range / 2);
+                        labelPosition = Vector3.right * light.range;
                         break;
                     case 1:
-                        labelPosition = Vector3.left * (light.range / 2);
+                        labelPosition = Vector3.left * light.range;
                         break;
                     case 2:
-                        labelPosition = Vector3.up * (light.range / 2);
+                        labelPosition = Vector3.up * light.range;
                         break;
                     case 3:
-                        labelPosition = Vector3.down * (light.range / 2);
+                        labelPosition = Vector3.down * light.range;
                         break;
                     case 4:
-                        labelPosition = Vector3.forward * (light.range / 2);
+                        labelPosition = Vector3.forward * light.range;
                         break;
                     case 5:
-                        labelPosition = Vector3.back * (light.range / 2);
+                        labelPosition = Vector3.back * light.range;
                         break;
                     default:
                         return;
@@ -94,69 +132,6 @@ namespace UnityEditor.Rendering
                 string labelText = FormattableString.Invariant($"Range: {light.range:0.00}");
                 DrawHandleLabel(labelPosition, labelText);
             }
-
-
-
-
-//            Vector3 labelPosition = Vector3.zero;
-//
-//            if (GUIUtility.hotControl != 0)
-//            {
-//                switch (GUIUtility.hotControl - firstControl)
-//                {
-//                    case 0: // PositiveX
-//                        labelPosition = Vector3.right * (light.areaSize.x / 2);
-//                        break;
-//                    case 1: // NegativeX
-//                        labelPosition = Vector3.left * (light.areaSize.x / 2);
-//                        break;
-//                    case 2: // PositiveY
-//                        labelPosition = Vector3.up * (light.areaSize.x / 2);
-//                        break;
-//                    case 3: // NegativeY
-//                        labelPosition = Vector3.down * (light.areaSize.x / 2);
-//                        break;
-//                    default:
-//                        return;
-//                }
-//                string labelText = FormattableString.Invariant($"Diameter: {light.areaSize.x:0.00}");
-//                DrawHandleLabel(labelPosition, labelText);
-//            }
-
-
-//            Vector3 labelPosition = Vector3.zero;
-//
-//            if (GUIUtility.hotControl != 0)
-//            {
-//                switch (GUIUtility.hotControl - firstControl)
-//                {
-//                    case 0:
-//                        labelPosition = light.transform.position + Vector3.right * light.range;
-//                        break;
-//                    case 1:
-//                        labelPosition = light.transform.position + Vector3.up * light.range;
-//                        break;
-//                    case 2:
-//                        labelPosition = light.transform.position + Vector3.forward * light.range;
-//                        break;
-//                    case 3:
-//                        labelPosition = light.transform.position + Vector3.left * light.range;
-//                        break;
-//                    case 4:
-//                        labelPosition = light.transform.position + Vector3.down * light.range;
-//                        break;
-//                    case 5:
-//                        labelPosition = light.transform.position + Vector3.back * light.range;
-//                        break;
-//                    default:
-//                        return;
-//                }
-//
-//                string labelText = FormattableString.Invariant($"Range: {light.range:0.00}");
-//                DrawHandleLabel(labelPosition, labelText);
-//            }
-
-
         }
 
         /// <summary>
@@ -260,7 +235,7 @@ namespace UnityEditor.Rendering
                 if (EditorGUI.EndChangeCheck())
                 {
                     Undo.RecordObject(light, "Adjust Area Disc Light");
-                    light.areaSize = new Vector2(radius * 2, light.areaSize.y);
+                    light.areaSize = new Vector2(radius, light.areaSize.y);
                 }
             }
         }
@@ -279,21 +254,21 @@ namespace UnityEditor.Rendering
                 switch (GUIUtility.hotControl - firstControl)
                 {
                     case 0: // PositiveX
-                        labelPosition = Vector3.right * (light.areaSize.x / 2);
+                        labelPosition = Vector3.right * light.areaSize.x;
                         break;
                     case 1: // NegativeX
-                        labelPosition = Vector3.left * (light.areaSize.x / 2);
+                        labelPosition = Vector3.left * light.areaSize.x;
                         break;
                     case 2: // PositiveY
-                        labelPosition = Vector3.up * (light.areaSize.x / 2);
+                        labelPosition = Vector3.up * light.areaSize.x;
                         break;
                     case 3: // NegativeY
-                        labelPosition = Vector3.down * (light.areaSize.x / 2);
+                        labelPosition = Vector3.down * light.areaSize.x;
                         break;
                     default:
                         return;
                 }
-                string labelText = FormattableString.Invariant($"Diameter: {light.areaSize.x:0.00}");
+                string labelText = FormattableString.Invariant($"Radius: {light.areaSize.x:0.00}");
                 DrawHandleLabel(labelPosition, labelText);
             }
         }
@@ -360,7 +335,7 @@ namespace UnityEditor.Rendering
         static float DoDiscHandles(float radius)
         {
             s_DiscLightHandle.center = Vector3.zero;
-            s_DiscLightHandle.radius = radius/2;
+            s_DiscLightHandle.radius = radius;
             DrawWithZTest(s_DiscLightHandle);
 
             return s_DiscLightHandle.radius;
@@ -371,10 +346,10 @@ namespace UnityEditor.Rendering
 
         static float DoPointHandles(float range)
         {
-            s_PointLightHandle.radius = range/2;
+            s_PointLightHandle.radius = range;
             DrawWithZTest(s_PointLightHandle);
 
-            return s_PointLightHandle.radius*2;
+            return s_PointLightHandle.radius;
         }
 
         static bool drawInnerConeAngle = false;

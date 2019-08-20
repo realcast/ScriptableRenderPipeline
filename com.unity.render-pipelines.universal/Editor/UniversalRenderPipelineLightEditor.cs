@@ -51,7 +51,7 @@ namespace UnityEditor.Rendering.Universal
         public bool spotOptionsValue { get { return typeIsSame && lightProperty.type == LightType.Spot; } }
         public bool pointOptionsValue { get { return typeIsSame && lightProperty.type == LightType.Point; } }
         public bool dirOptionsValue { get { return typeIsSame && lightProperty.type == LightType.Directional; } }
-        public bool areaOptionsValue { get { return typeIsSame && lightProperty.type == LightType.Rectangle; } }
+        public bool areaOptionsValue { get { return typeIsSame && (lightProperty.type == LightType.Rectangle || lightProperty.type == LightType.Disc); } }
 
         // Point light realtime shadows not supported
         public bool runtimeOptionsValue { get { return typeIsSame && (lightProperty.type != LightType.Rectangle && lightProperty.type != LightType.Point && !settings.isCompletelyBaked); } }
@@ -343,6 +343,13 @@ namespace UnityEditor.Rendering.Universal
                     }
                     break;
 
+                case LightType.Directional:
+                    using (new Handles.DrawingScope(Matrix4x4.TRS(light.transform.position, light.transform.rotation, Vector3.one)))
+                    {
+                        CoreLightEditorUtilities.DrawDirectionalLightGizmo(light);
+                    }
+                    break;
+                
                 default:
                     base.OnSceneGUI();
                     break;
