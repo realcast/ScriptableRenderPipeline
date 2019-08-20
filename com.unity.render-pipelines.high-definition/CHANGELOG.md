@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fixed invalid contact shadow shaders being created on metal
 - Fixed  a bug where if Assembly.GetTypes throws an exception due to mis-versioned dlls, then no preprocessors are used in the shader stripper
 - Fixed typo in AXF decal property preventing to compile
+- Fix FrameSettings names and tooltips
 
 ### Changed
 - Update Wizard layout.
@@ -19,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Rename property AdditionalVeclocityChange to AddPrecomputeVelocity 
 - Call the End/Begin camera rendering callbacks for camera with customRender enabled
 - Changeg framesettings migration order of postprocess flags as a pr for reflection settings flags have been backported to 2019.2
+- Improve FrameSettings debugability
 
 ## [7.0.1] - 2019-07-25
 
