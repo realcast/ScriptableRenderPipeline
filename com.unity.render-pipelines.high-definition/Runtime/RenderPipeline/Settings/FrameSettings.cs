@@ -87,6 +87,8 @@ namespace UnityEngine.Rendering.HighDefinition
      * 5 - If there is additional rules that can disable the aspect of the field, amend the display in FrameSettingsUI.Drawer with a AmmendInfo on the OverridableFrameSettingsArea.
      *     Usually this happens if you have additional support condition or if you have a non boolean frame settings.
      *
+     * 6 - If the added FrameSettings have a default value that is not the C# default value, add a migration step in HDRPAsset to upgrade it with the right value.
+     *
      * /////////////////////////////////////// */
     public enum FrameSettingsField
     {
