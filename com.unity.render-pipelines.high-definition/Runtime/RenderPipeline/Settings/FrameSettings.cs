@@ -60,9 +60,34 @@ namespace UnityEngine.Rendering.HighDefinition
         }
     }
 
-    // To add a new element to FrameSettings, add en entry in this enum using the FrameSettingsFieldAttribute.
-    // Inspector UI and DebugMenu are generated from this.
-    // If you have very specific display requirement, you could add them in FrameSettingsUI.Drawer.cs with a AmmendInfo command.
+    /* ////// HOW TO ADD FRAME SETTINGS //////
+     * 
+     * 1 - Add an entry in the FrameSettingsField enum with a bit that is not used.
+     *     If the type is non boolean, also add a field in FrameSettings (see lodBias).
+     * 
+     * 2 - Add a FrameSettingsFieldAttribute to it. (Inspector UI and DebugMenu are generated from this.)
+     *     i   - Give the groupIndex that correspond the area you want it displayed in the interface.
+     *     ii  - Change is label by filling either autoname or displayedName.
+     *     iii - Add the tooltip into tooltip.
+     *     iv  - If this is not a boolean you want, you can either show it as:
+     *               - 2 choice enum popup: use type: FrameSettingsFieldAttribute.DisplayType.BoolAsEnumPopup, targetType: typeof(EnumType) (enum with only two value 0 and 1).
+     *               - custom: FrameSettingsFieldAttribute.DisplayType.Others (can be combined with targetType).
+     *     v   - Add indentation and disable state by filling positiveDependencies and/or negativeDependencies.
+     *     vi  - If you want it not be sorted by its bit index, use customOrderInGroup to restart numeration at this element.
+     *           You certainly need to also use customOrderInGroup on element that should appear after.
+     *     
+     * 3 - The default value should be set for:
+     *         - FrameSettings.defaultCamera
+     *         - FrameSettings.defaultRealtimeReflectionProbe
+     *         - FrameSettings.defaultCustomOrBakeReflectionProbe
+     *     For a boolean data, its default is false. If you want it to true, add the enum value in the BitArray.
+     *     
+     * 4 - Fill FrameSettings.Sanitize to amend the rules on supported feature.
+     *
+     * 5 - If there is additional rules that can disable the aspect of the field, amend the display in FrameSettingsUI.Drawer with a AmmendInfo on the OverridableFrameSettingsArea.
+     *     Usually this happens if you have additional support condition or if you have a non boolean frame settings.
+     *
+     * /////////////////////////////////////// */
     public enum FrameSettingsField
     {
         None = -1,
