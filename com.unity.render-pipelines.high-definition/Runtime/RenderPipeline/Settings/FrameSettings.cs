@@ -95,119 +95,119 @@ namespace UnityEngine.Rendering.HighDefinition
         None = -1,
 
         //rendering settings from 0 to 19
-        [FrameSettingsField(0, autoName: LitShaderMode, type: FrameSettingsFieldAttribute.DisplayType.BoolAsEnumPopup, targetType: typeof(LitShaderMode), customOrderInGroup: 0)]
+        [FrameSettingsField(0, autoName: LitShaderMode, type: FrameSettingsFieldAttribute.DisplayType.BoolAsEnumPopup, targetType: typeof(LitShaderMode), customOrderInGroup: 0, tooltip: "Specifies the Lit Shader Mode for Cameras using these Frame Settings use to render the Scene.")]
         LitShaderMode = 0,
-        [FrameSettingsField(0, displayedName: "Depth Prepass within Deferred", positiveDependencies: new[] { LitShaderMode })]
+        [FrameSettingsField(0, displayedName: "Depth Prepass within Deferred", positiveDependencies: new[] { LitShaderMode }, tooltip: "When enabled, HDRP processes a depth prepass for Cameras using these Frame Settings. Set Lit Shader Mode to Deferred to access this option.")]
         DepthPrepassWithDeferredRendering = 1,
-        [FrameSettingsField(0, displayedName: "Clear GBuffers", positiveDependencies: new[] { LitShaderMode }, customOrderInGroup: 2)]
+        [FrameSettingsField(0, displayedName: "Clear GBuffers", positiveDependencies: new[] { LitShaderMode }, customOrderInGroup: 2, tooltip: "When enabled, HDRP clear GBuffers for Cameras using these Frame Settings. Set Lit Shader Mode to Deferred to access this option.")]
         ClearGBuffers = 5,
-        [FrameSettingsField(0, displayedName: "MSAA within Forward", negativeDependencies: new[] { LitShaderMode }, customOrderInGroup: 3)]
+        [FrameSettingsField(0, displayedName: "MSAA within Forward", negativeDependencies: new[] { LitShaderMode }, customOrderInGroup: 3, tooltip: "When enabled, Cameras using these Frame Settings calculate MSAA when they render the Scene. Set Lit Shader Mode to Forward to access this option.")]
         MSAA = 31,
-        [FrameSettingsField(0, autoName: OpaqueObjects, customOrderInGroup: 4)]
+        [FrameSettingsField(0, autoName: OpaqueObjects, customOrderInGroup: 4, tooltip: "When enabled, Cameras using these Frame Settings render opaque GameObjects.")]
         OpaqueObjects = 2,
-        [FrameSettingsField(0, autoName: TransparentPrepass, customOrderInGroup: 5)]
+        [FrameSettingsField(0, autoName: TransparentPrepass, customOrderInGroup: 5, tooltip: "When enabled, HDRP processes a transparent prepass for Cameras using these Frame Settings.")]
         TransparentPrepass = 8,
-        [FrameSettingsField(0, autoName: TransparentObjects, customOrderInGroup: 6)]
+        [FrameSettingsField(0, autoName: TransparentObjects, customOrderInGroup: 6, tooltip: "When enabled, Cameras using these Frame Settings render Transparent GameObjects.")]
         TransparentObjects = 3,
-        [FrameSettingsField(0, autoName: TransparentPostpass, customOrderInGroup: 7)]
+        [FrameSettingsField(0, autoName: TransparentPostpass, customOrderInGroup: 7, tooltip: "When enabled, HDRP processes a transparent postpass for Cameras using these Frame Settings.")]
         TransparentPostpass = 9,
-        [FrameSettingsField(0, autoName: RealtimePlanarReflection, customOrderInGroup: 8)]
+        [FrameSettingsField(0, autoName: RealtimePlanarReflection, customOrderInGroup: 8, tooltip: "When enabled, HDRP updates Planar Reflection Probes every frame for Cameras using these Frame Settings.")]
         RealtimePlanarReflection = 4,
 
-        [FrameSettingsField(0, autoName: MotionVectors, customOrderInGroup: 9)]
+        [FrameSettingsField(0, autoName: MotionVectors, customOrderInGroup: 9, tooltip: "When enabled, HDRP processes a motion vector pass for Cameras using these Frame Settings.")]
         MotionVectors = 10,
-        [FrameSettingsField(0, autoName: ObjectMotionVectors, positiveDependencies: new[] { MotionVectors }, customOrderInGroup: 10)]
+        [FrameSettingsField(0, autoName: ObjectMotionVectors, positiveDependencies: new[] { MotionVectors }, customOrderInGroup: 10, tooltip: "When enabled, HDRP processes an object motion vector pass for Cameras using these Frame Settings.")]
         ObjectMotionVectors = 11,
-        [FrameSettingsField(0, displayedName: "Transparent Write Motion Vectors", customOrderInGroup: 11)]
+        [FrameSettingsField(0, displayedName: "Transparent Write Motion Vectors", customOrderInGroup: 11, tooltip: "When enabled, transparent object will use Motion Vector. You must also enable TransparentWritesVelocity on each material.")]
         TransparentsWriteMotionVector = 16,
 
-        [FrameSettingsField(0, autoName: Decals, customOrderInGroup: 12)]
+        [FrameSettingsField(0, autoName: Decals, customOrderInGroup: 12, tooltip: "When enabled, HDRP processes a decal render pass for Cameras using these Frame Settings.")]
         Decals = 12,
-        [FrameSettingsField(0, autoName: RoughRefraction)]
+        [FrameSettingsField(0, autoName: RoughRefraction, tooltip: "When enabled, HDRP processes a rough refraction render pass for Cameras using these Frame Settings.")]
         RoughRefraction = 13,
-        [FrameSettingsField(0, autoName: Distortion)]
+        [FrameSettingsField(0, autoName: Distortion, tooltip: "When enabled, HDRP processes a distortion render pass for Cameras using these Frame Settings.")]
         Distortion = 14,
-        [FrameSettingsField(0, displayedName: "Post-process")]
+        [FrameSettingsField(0, displayedName: "Post-process", tooltip: "When enabled, HDRP processes a post-processing render pass for Cameras using these Frame Settings.")]
         Postprocess = 15,
-        [FrameSettingsField(0, displayedName: "Stop NaN", positiveDependencies: new[] { Postprocess }, customOrderInGroup: 15)]
+        [FrameSettingsField(0, displayedName: "Stop NaN", positiveDependencies: new[] { Postprocess }, customOrderInGroup: 15, tooltip: "When enabled, HDRP replace NaN value by black pixels for Cameras using these Frame Settings.")]
         StopNaN = 80,
-        [FrameSettingsField(0, autoName: DepthOfField, positiveDependencies: new[] { Postprocess }, customOrderInGroup: 15)]
+        [FrameSettingsField(0, autoName: DepthOfField, positiveDependencies: new[] { Postprocess }, customOrderInGroup: 15, tooltip: "When enabled, HDRP add depth of field to Cameras affected by a Volume containing the Depth Of Field override.")]
         DepthOfField = 81,
-        [FrameSettingsField(0, autoName: MotionBlur, positiveDependencies: new[] { Postprocess }, customOrderInGroup: 15)]
+        [FrameSettingsField(0, autoName: MotionBlur, positiveDependencies: new[] { Postprocess }, customOrderInGroup: 15, tooltip: "When enabled, HDRP add motion blur to Cameras affected by a Volume containing the Blur override.")]
         MotionBlur = 82,
-        [FrameSettingsField(0, autoName: PaniniProjection, positiveDependencies: new[] { Postprocess }, customOrderInGroup: 15)]
+        [FrameSettingsField(0, autoName: PaniniProjection, positiveDependencies: new[] { Postprocess }, customOrderInGroup: 15, tooltip: "When enabled, HDRP add panini projection to Cameras affected by a Volume containing the Panini Projection override.")]
         PaniniProjection = 83,
-        [FrameSettingsField(0, autoName: Bloom, positiveDependencies: new[] { Postprocess }, customOrderInGroup: 15)]
+        [FrameSettingsField(0, autoName: Bloom, positiveDependencies: new[] { Postprocess }, customOrderInGroup: 15, tooltip: "When enabled, HDRP add bloom to Cameras affected by a Volume containing the Bloom override.")]
         Bloom = 84,
-        [FrameSettingsField(0, autoName: LensDistortion, positiveDependencies: new[] { Postprocess }, customOrderInGroup: 15)]
+        [FrameSettingsField(0, autoName: LensDistortion, positiveDependencies: new[] { Postprocess }, customOrderInGroup: 15, tooltip: "When enabled, HDRP add lens distortion to Cameras affected by a Volume containing the Lens Distortion override.")]
         LensDistortion = 85,
-        [FrameSettingsField(0, autoName: ChromaticAberration, positiveDependencies: new[] { Postprocess }, customOrderInGroup: 15)]
+        [FrameSettingsField(0, autoName: ChromaticAberration, positiveDependencies: new[] { Postprocess }, customOrderInGroup: 15, tooltip: "When enabled, HDRP add chromatic aberration to Cameras affected by a Volume containing the Chromatic Aberration override.")]
         ChromaticAberration = 86,
-        [FrameSettingsField(0, autoName: Vignette, positiveDependencies: new[] { Postprocess }, customOrderInGroup: 15)]
+        [FrameSettingsField(0, autoName: Vignette, positiveDependencies: new[] { Postprocess }, customOrderInGroup: 15, tooltip: "When enabled, HDRP add vignette to Cameras affected by a Volume containing the Vignette override.")]
         Vignette = 87,
-        [FrameSettingsField(0, autoName: ColorGrading, positiveDependencies: new[] { Postprocess }, customOrderInGroup: 15)]
+        [FrameSettingsField(0, autoName: ColorGrading, positiveDependencies: new[] { Postprocess }, customOrderInGroup: 15, tooltip: "When enabled, HDRP process color grading for camera using these Frame Settings.")]
         ColorGrading = 88,
-        [FrameSettingsField(0, autoName: FilmGrain, positiveDependencies: new[] { Postprocess }, customOrderInGroup: 15)]
+        [FrameSettingsField(0, autoName: FilmGrain, positiveDependencies: new[] { Postprocess }, customOrderInGroup: 15, tooltip: "When enabled, HDRP add film grain to Cameras affected by a Volume containing the Film Grain override.")]
         FilmGrain = 89,
-        [FrameSettingsField(0, autoName: Dithering, positiveDependencies: new[] { Postprocess }, customOrderInGroup: 15)]
+        [FrameSettingsField(0, autoName: Dithering, positiveDependencies: new[] { Postprocess }, customOrderInGroup: 15, tooltip: "When enabled, HDRP process dithering for camera using these Frame Settings.")]
         Dithering = 90,
-        [FrameSettingsField(0, autoName: Antialiasing, positiveDependencies: new[] { Postprocess }, customOrderInGroup: 15)]
+        [FrameSettingsField(0, displayedName: "Anti-aliasing", positiveDependencies: new[] { Postprocess }, customOrderInGroup: 15, tooltip: "When enabled, HDRP process anti-aliasing for camera using these Frame Settings.")]
         Antialiasing = 91,
-        [FrameSettingsField(0, displayedName: "After Post-process", customOrderInGroup: 16)]
+        [FrameSettingsField(0, displayedName: "After Post-process", customOrderInGroup: 16, tooltip: "When enabled, HDRP processes a post-processing render pass for Cameras using these Frame Settings.")]
         AfterPostprocess = 17,
-        [FrameSettingsField(0, autoName: LowResTransparent)]
+        [FrameSettingsField(0, autoName: LowResTransparent, tooltip: "When enabled, HDRP processes a the transparent pass in a lower resolution for Cameras using these Frame Settings.")]
         LowResTransparent = 18,
         [FrameSettingsField(0, displayedName: "ZTest For After Post-Process", tooltip: "When enabled, Cameras that don't use TAA process a depth test for Materials in the AfterPostProcess rendering pass.")]
         ZTestAfterPostProcessTAA = 19,
 
         //lighting settings from 20 to 39
-        [FrameSettingsField(1, autoName: Shadow)]
+        [FrameSettingsField(1, autoName: Shadow, tooltip: "When enabled, Cameras using these Frame Settings render shadows.")]
         Shadow = 20,
-        [FrameSettingsField(1, autoName: ContactShadows)]
+        [FrameSettingsField(1, autoName: ContactShadows, tooltip: "When enabled, Cameras using these Frame Settings render Contact Shadows.")]
         ContactShadows = 21,
-        [FrameSettingsField(1, autoName: ScreenSpaceShadows, customOrderInGroup: 22)]
+        [FrameSettingsField(1, autoName: ScreenSpaceShadows, customOrderInGroup: 22, tooltip: "When enabled, Cameras using these Frame Settings render Screen Space Shadows.")]
         ScreenSpaceShadows = 34,
-        [FrameSettingsField(1, autoName: ShadowMask, customOrderInGroup: 23)]
+        [FrameSettingsField(1, autoName: ShadowMask, customOrderInGroup: 23, tooltip: "When enabled, Cameras using these Frame Settings render shadows from Shadow Masks.")]
         ShadowMask = 22,
-        [FrameSettingsField(1, autoName: SSR)]
+        [FrameSettingsField(1, autoName: SSR, tooltip: "When enabled, Cameras using these Frame Settings calculate Screen Space Reflections.")]
         SSR = 23,
-        [FrameSettingsField(1, autoName: SSAO)]
+        [FrameSettingsField(1, autoName: SSAO, tooltip: "When enabled, Cameras using these Frame Settings calculate Screen Space Ambient Occlusion.")]
         SSAO = 24,
-        [FrameSettingsField(1, autoName: SubsurfaceScattering)]
+        [FrameSettingsField(1, autoName: SubsurfaceScattering, tooltip: "When enabled, Cameras using these Frame Settings render subsurface scattering (SSS) effects for GameObjects that use a SSS Material.")]
         SubsurfaceScattering = 25,
-        [FrameSettingsField(1, autoName: Transmission)]
+        [FrameSettingsField(1, autoName: Transmission, tooltip: "When enabled, Cameras using these Frame Settings render subsurface scattering (SSS) Materials with an added transmission effect (only if you enable Transmission on the the SSS Material in the Material's Inspector).")]
         Transmission = 26,
-        [FrameSettingsField(1, displayedName: "Fog")]
+        [FrameSettingsField(1, displayedName: "Fog", tooltip: "When enabled, Cameras using these Frame Settings render fog effects.")]
         AtmosphericScattering = 27,
-        [FrameSettingsField(1, autoName: Volumetrics, positiveDependencies: new[] { AtmosphericScattering })]
+        [FrameSettingsField(1, autoName: Volumetrics, positiveDependencies: new[] { AtmosphericScattering }, tooltip: "When enabled, Cameras using these Frame Settings render volumetric effects such as volumetric fog and lighting.")]
         Volumetrics = 28,
-        [FrameSettingsField(1, autoName: ReprojectionForVolumetrics, positiveDependencies: new[] { AtmosphericScattering, Volumetrics })]
+        [FrameSettingsField(1, autoName: ReprojectionForVolumetrics, positiveDependencies: new[] { AtmosphericScattering, Volumetrics }, tooltip: "When enabled, Cameras using these Frame Settings use several previous frames to calculate volumetric effects which increases their overall quality at run time.")]
         ReprojectionForVolumetrics = 29,
-        [FrameSettingsField(1, autoName: LightLayers)]
+        [FrameSettingsField(1, autoName: LightLayers, tooltip: "When enabled, Cameras that use these Frame Settings make use of LightLayers.")]
         LightLayers = 30,
-        [FrameSettingsField(1, autoName: ExposureControl, customOrderInGroup: 32)]
+        [FrameSettingsField(1, autoName: ExposureControl, customOrderInGroup: 32, tooltip: "When enabled, Cameras that use these Frame Settings will use exposure value defined in relevant components.")]
         ExposureControl = 32,
-        [FrameSettingsField(1, autoName: ReflectionProbe)]
+        [FrameSettingsField(1, autoName: ReflectionProbe, tooltip: "When enabled, Cameras that use these Frame Settings calculate reflection from Reflection Probes.")]
         ReflectionProbe = 33,
-        [FrameSettingsField(1, autoName: PlanarProbe, customOrderInGroup: 35)]
+        [FrameSettingsField(1, autoName: PlanarProbe, customOrderInGroup: 35, tooltip: "When enabled, Cameras that use these Frame Settings calculate reflection from Planar Reflection Probes.")]
         PlanarProbe = 35,
-        [FrameSettingsField(1, autoName: ReplaceDiffuseForIndirect)]
+        [FrameSettingsField(1, autoName: ReplaceDiffuseForIndirect, tooltip: "When enabled, Cameras that use these Frame Settings render materials with base color as diffuse. This is useful for realtime Reflection Probes to avoid metals looking black where Unity cannot compute several bounces of specular lighting.")]
         ReplaceDiffuseForIndirect = 36,
-        [FrameSettingsField(1, autoName: SkyLighting)]
+        [FrameSettingsField(1, autoName: SkyLighting, tooltip: "When enabled, Cameras that use these Frame Settings use Sky Ambient Light Probes.")]
         SkyLighting = 37,
 
         //async settings from 40 to 59
-        [FrameSettingsField(2, autoName: AsyncCompute)]
+        [FrameSettingsField(2, autoName: AsyncCompute, tooltip: "When enabled, HDRP executes certain compute Shader commands in parallel. This only has an effect if the target platform supports async compute.")]
         AsyncCompute = 40,
-        [FrameSettingsField(2, autoName: LightListAsync, positiveDependencies: new[] { AsyncCompute })]
+        [FrameSettingsField(2, autoName: LightListAsync, positiveDependencies: new[] { AsyncCompute }, tooltip: "When enabled, HDRP builds the Light List asynchronously.")]
         LightListAsync = 41,
-        [FrameSettingsField(2, autoName: SSRAsync, positiveDependencies: new[] { AsyncCompute })]
+        [FrameSettingsField(2, autoName: SSRAsync, positiveDependencies: new[] { AsyncCompute }, tooltip: "When enabled, HDRP calculates screen space reflection asynchronously.")]
         SSRAsync = 42,
-        [FrameSettingsField(2, autoName: SSAOAsync, positiveDependencies: new[] { AsyncCompute })]
+        [FrameSettingsField(2, autoName: SSAOAsync, positiveDependencies: new[] { AsyncCompute }, tooltip: "When enabled, HDRP calculates screen space ambient occlusion asynchronously.")]
         SSAOAsync = 43,
-        [FrameSettingsField(2, autoName: ContactShadowsAsync, positiveDependencies: new[] { AsyncCompute })]
+        [FrameSettingsField(2, autoName: ContactShadowsAsync, positiveDependencies: new[] { AsyncCompute }, tooltip: "When enabled, HDRP calculates Contact Shadows asynchronously.")]
         ContactShadowsAsync = 44,
-        [FrameSettingsField(2, autoName: VolumeVoxelizationsAsync, positiveDependencies: new[] { AsyncCompute })]
+        [FrameSettingsField(2, autoName: VolumeVoxelizationsAsync, positiveDependencies: new[] { AsyncCompute }, tooltip: "When enabled, HDRP calculates volumetric voxelization asynchronously.")]
         VolumeVoxelizationsAsync = 45,
 
         //from 60 to 119 : space for new scopes
