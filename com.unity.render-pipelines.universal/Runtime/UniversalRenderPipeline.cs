@@ -130,8 +130,10 @@ namespace UnityEngine.Rendering.Universal
             // For compatibility reasons we also match old LightweightPipeline tag.
             Shader.globalRenderPipeline = "UniversalPipeline,LightweightPipeline";
 
+            // Editor only.
+#if UNITY_EDITOR
             Lightmapping.SetDelegate(lightsDelegate);
-
+#endif
             CameraCaptureBridge.enabled = true;
 
             RenderingUtils.ClearSystemInfoCache();
@@ -573,6 +575,8 @@ namespace UnityEngine.Rendering.Universal
             Shader.SetGlobalMatrix(PerCameraBuffer._InvCameraViewProj, invViewProjMatrix);
         }
 
+        // Editor only.
+#if UNITY_EDITOR
         static Lightmapping.RequestLightsDelegate lightsDelegate = (Light[] requests, NativeArray<LightDataGI> lightsOutput) =>
         {
             LightDataGI lightData = new LightDataGI();
@@ -613,5 +617,6 @@ namespace UnityEngine.Rendering.Universal
                 lightsOutput[i] = lightData;
             }
         };
+#endif
     }
 }
