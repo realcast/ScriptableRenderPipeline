@@ -12,19 +12,6 @@ namespace UnityEditor.Rendering.HighDefinition
         private const string k_KeywordHigh = "RAYTRACING_SHADER_GRAPH_HIGH";
         private const string k_KeywordLow = "RAYTRACING_SHADER_GRAPH_LOW";
 
-        static ShaderKeyword Keyword = new ShaderKeyword(ShaderKeywordType.Enum, false)
-        {
-            displayName = "Raytracing",
-            overrideReferenceName = "RAYTRACING_SHADER_GRAPH",
-            isEditable = false,
-            keywordDefinition = ShaderKeywordDefinition.Predefined,
-            entries = new List<ShaderKeywordEntry>()
-            {
-                new ShaderKeywordEntry(1, "Low", "LOW"),
-                new ShaderKeywordEntry(2, "High",  "HIGH"),
-            },
-        };
-
         public enum RaytracingVariant
         {
             High,
@@ -41,8 +28,24 @@ namespace UnityEditor.Rendering.HighDefinition
             }
         }
 
-        [CustomKeywordNodeProvider]
+        [BuiltinKeyword]
         [SuppressMessage("ReSharper", "UnusedMember.Local")]
-        static IEnumerable<ShaderKeyword> GetRayTracingKeyword() => Enumerable.Repeat(Keyword, 1);
+        public static KeywordDescriptor GetRayTracingKeyword()
+        {
+            return new KeywordDescriptor()
+            {
+                displayName = "Raytracing",
+                referenceName = "RAYTRACING_SHADER_GRAPH",
+                type = KeywordType.Enum,
+                definition = KeywordDefinition.ShaderFeature,
+                scope = KeywordScope.Global,
+                value = 0,
+                entries = new List<KeywordEntry>()
+                {
+                    new KeywordEntry(1, "High", "HIGH"),
+                    new KeywordEntry(2, "Low", "LOW"),
+                },
+            };
+        }
     }
 }
