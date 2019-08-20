@@ -395,5 +395,10 @@ namespace UnityEngine.Rendering.HighDefinition
             cameraFrameSettings.SetEnabled(FrameSettingsField.Dithering, true);
             cameraFrameSettings.SetEnabled(FrameSettingsField.Antialiasing, true);
         }
+
+        internal static void MigrateToRayTracing(ref FrameSettings cameraFrameSettings)
+        {
+            cameraFrameSettings.SetEnabled(FrameSettingsField.RayTracing, true);
+        }
     }
 }
