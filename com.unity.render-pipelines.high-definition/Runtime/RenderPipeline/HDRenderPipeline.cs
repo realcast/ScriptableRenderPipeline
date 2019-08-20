@@ -1771,8 +1771,7 @@ namespace UnityEngine.Rendering.HighDefinition
             ClearBuffers(hdCamera, cmd);
 
             // Render XR occlusion mesh to depth buffer early in the frame to improve performance
-            // XRTODO: add frame setting for occlusion mesh
-            if (hdCamera.xr.enabled)
+            if (hdCamera.xr.enabled && m_Asset.currentPlatformRenderPipelineSettings.xrSettings.occlusionMesh)
             {
                 var msaa = hdCamera.frameSettings.IsEnabled(FrameSettingsField.MSAA);
                 var colorBuffer = msaa ? m_CameraColorMSAABuffer : m_CameraColorBuffer;
@@ -2096,7 +2095,7 @@ namespace UnityEngine.Rendering.HighDefinition
                 {
                     var finalBlitParams = PrepareFinalBlitParameters(hdCamera);
 
-                    // Disable single-pass instancing if we need to a blit only one slice
+                    // Disable XR single-pass if we need to a blit only one slice
                     if (finalBlitParams.sliceIndex >= 0)
                         hdCamera.xr.StopSinglePass(cmd, hdCamera.camera, renderContext);
 

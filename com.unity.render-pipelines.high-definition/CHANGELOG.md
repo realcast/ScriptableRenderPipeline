@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [7.1.1] - 2019-XX-XX
 
+### Added
+- XR settings are now available in the HDRP asset
+
 ### Fixed
 - Fixed wizard infinite loop on cancellation
 - Fixed with compute shader error about too many threads in threadgroup on low GPU
@@ -13,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fixed  a bug where if Assembly.GetTypes throws an exception due to mis-versioned dlls, then no preprocessors are used in the shader stripper
 - Fixed typo in AXF decal property preventing to compile
 - Fixed reflection probe with XR single-pass and FPTL
+- Fixed issue with XR occlusion mesh and dynamic resolution
 
 ### Changed
 - Update Wizard layout.
