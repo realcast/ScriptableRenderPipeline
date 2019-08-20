@@ -160,7 +160,8 @@ namespace UnityEditor.Rendering.HighDefinition
                 overridedDefaultValue: QualitySettings.lodBias,
                 customGetter: () => serialized.lodBias.floatValue,
                 customSetter: v => serialized.lodBias.floatValue = (float)v,
-                customOverrideable: () => serialized.lodBiasMode.enumValueIndex != (int)LODBiasMode.FromQualitySettings);
+                customOverrideable: () => serialized.lodBiasMode.enumValueIndex != (int)LODBiasMode.FromQualitySettings,
+                labelOverride: serialized.lodBiasMode.enumValueIndex == (int)LODBiasMode.ScaleQualitySettings ? "Scale Factor" : "LOD Bias");
 
             area.AmmendInfo(
                 FrameSettingsField.MaximumLODLevelMode,
@@ -172,7 +173,8 @@ namespace UnityEditor.Rendering.HighDefinition
                 overridedDefaultValue: QualitySettings.maximumLODLevel,
                 customGetter: () => serialized.maximumLODLevel.intValue,
                 customSetter: v => serialized.maximumLODLevel.intValue = (int)v,
-                customOverrideable: () => serialized.maximumLODLevelMode.enumValueIndex != (int)MaximumLODLevelMode.FromQualitySettings);
+                customOverrideable: () => serialized.maximumLODLevelMode.enumValueIndex != (int)MaximumLODLevelMode.FromQualitySettings,
+                labelOverride: serialized.maximumLODLevelMode.enumValueIndex == (int)MaximumLODLevelMode.OffsetQualitySettings ? "Offset Factor" : "Maximum LOD Level");
 
             area.Draw(withOverride);
         }

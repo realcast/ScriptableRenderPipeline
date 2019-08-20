@@ -20,7 +20,7 @@ namespace UnityEngine.Rendering.HighDefinition
         /// <summary>Scale the current quality settings value.</summary>
         ScaleQualitySettings,
         /// <summary>Set the current quality settings value.</summary>
-        Fixed,
+        OverrideQualitySettings,
     }
     public enum MaximumLODLevelMode
     {
@@ -29,7 +29,7 @@ namespace UnityEngine.Rendering.HighDefinition
         /// <summary>Offset the current quality settings value.</summary>
         OffsetQualitySettings,
         /// <summary>Set the current quality settings value.</summary>
-        Fixed,
+        OverrideQualitySettings,
     }
 
     public static class LODBiasModeExtensions
@@ -39,7 +39,7 @@ namespace UnityEngine.Rendering.HighDefinition
             switch (mode)
             {
                 case LODBiasMode.FromQualitySettings: return qualitySettingValue;
-                case LODBiasMode.Fixed: return inputValue;
+                case LODBiasMode.OverrideQualitySettings: return inputValue;
                 case LODBiasMode.ScaleQualitySettings: return inputValue * qualitySettingValue;
                 default: throw new ArgumentOutOfRangeException(nameof(mode));
             }
@@ -54,7 +54,7 @@ namespace UnityEngine.Rendering.HighDefinition
             {
                 case MaximumLODLevelMode.FromQualitySettings: return qualitySettingsValue;
                 case MaximumLODLevelMode.OffsetQualitySettings: return qualitySettingsValue + inputValue;
-                case MaximumLODLevelMode.Fixed: return inputValue;
+                case MaximumLODLevelMode.OverrideQualitySettings: return inputValue;
                 default: throw new ArgumentOutOfRangeException(nameof(mode));
             }
         }
