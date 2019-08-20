@@ -156,9 +156,6 @@ namespace UnityEngine.Experimental.Rendering.Universal
             m_Internal = new PixelPerfectCameraInternal(this);
 
             m_Internal.originalOrthoSize = m_Camera.orthographicSize;
-
-            if (m_Camera.targetTexture != null)
-                Debug.LogWarning("Render to texture is not supported by Pixel Perfect Camera.", m_Camera);
         }
 
         void OnBeginCameraRendering(ScriptableRenderContext context, Camera camera)
@@ -166,12 +163,15 @@ namespace UnityEngine.Experimental.Rendering.Universal
             if (camera != m_Camera)
                 return;
 
-            m_Internal.CalculateCameraProperties(Screen.width, Screen.height);
+            var targetTexture = m_Camera.targetTexture;
+            Vector2Int rtSize = targetTexture == null ? new Vector2Int(Screen.width, Screen.height) : new Vector2Int(targetTexture.width, targetTexture.height);
+
+            m_Internal.CalculateCameraProperties(rtSize.x, rtSize.y);
 
             PixelSnap();
 
             if (m_Internal.useOffscreenRT)
-                m_Camera.pixelRect = m_Internal.CalculateFinalBlitPixelRect(m_Camera.aspect, Screen.width, Screen.height);
+                m_Camera.pixelRect = m_Internal.CalculateFinalBlitPixelRect(m_Camera.aspect, rtSize.x, rtSize.y);
             else
                 m_Camera.rect = new Rect(0.0f, 0.0f, 1.0f, 1.0f);
 
@@ -237,9 +237,12 @@ namespace UnityEngine.Experimental.Rendering.Universal
                 GUILayout.Box(warning);
             }
 
-            if (Screen.width < refResolutionX || Screen.height < refResolutionY)
+            var targetTexture = m_Camera.targetTexture;
+            Vector2Int rtSize = targetTexture == null ? new Vector2Int(Screen.width, Screen.height) : new Vector2Int(targetTexture.width, targetTexture.height);
+
+            if (rtSize.x < refResolutionX || rtSize.y < refResolutionY)
             {
-                GUILayout.Box("Screen resolution is smaller than the reference resolution. Image may appear stretched or cropped.");
+                GUILayout.Box("Target resolution is smaller than the reference resolution. Image may appear stretched or cropped.");
             }
 
             GUI.color = oldColor;
