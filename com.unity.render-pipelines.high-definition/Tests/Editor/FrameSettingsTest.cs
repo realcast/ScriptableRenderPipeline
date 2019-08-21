@@ -51,6 +51,15 @@ namespace UnityEngine.Rendering.HighDefinition.Tests
                 }
             }
 
+            FrameSettingsOverrideMask fsm = default;
+            StringBuilder availables = new StringBuilder();
+            for (int i = 0; i < fsm.mask.capacity; ++i)
+            {
+                if(!singleValues.Contains(i))
+                    availables.AppendFormat("{0} ", i);
+            }
+            Debug.Log($"Available bit in FrameSettings: {availables}");
+
             Assert.AreEqual(values.Length, singleValues.Count(), String.Format("Double bit index found: {0}\nNumber of bit index against number of distinct bit index:", messageDuplicates.ToString()));
         }
 
