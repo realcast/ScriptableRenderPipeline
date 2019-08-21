@@ -95,11 +95,11 @@ namespace UnityEditor.ShaderGraph.Drawing
                     m_GPUInstancedToogle = new Toggle { value = input.gpuInstanced };
                     m_GPUInstancedToogle.OnToggleChanged(evt =>
                     {
-                        m_Graph.owner.RegisterCompleteObjectUndo("Change GPU Instanced Toggle");
+                        m_Graph.owner.RegisterCompleteObjectUndo("Change Hybrid Instanced Toggle");
                         input.gpuInstanced = evt.newValue;
                         DirtyNodes(ModificationScope.Graph);
                     });
-                    AddRow("GPU Instanced", m_GPUInstancedToogle);
+                    AddRow("Hybrid Instanced (experimental)", m_GPUInstancedToogle);
                 }
 				
             }
