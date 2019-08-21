@@ -197,9 +197,7 @@ namespace UnityEditor.ShaderGraph.Drawing
                 m_GraphView.AddManipulator(new RectangleSelector());
                 m_GraphView.AddManipulator(new ClickSelector());
                 m_GraphView.RegisterCallback<KeyDownEvent>(OnKeyDown);
-                m_GraphView.groupTitleChanged = OnGroupTitleChanged;
-                m_GraphView.elementsAddedToGroup = OnElementsAddedToGroup;
-                m_GraphView.elementsRemovedFromGroup = OnElementsRemovedFromGroup;
+                RegisterGraphViewCallbacks();
                 content.Add(m_GraphView);
 
                 m_BlackboardProvider = new BlackboardProvider(graph);
@@ -241,6 +239,20 @@ namespace UnityEditor.ShaderGraph.Drawing
                 AddEdge(edge);
 
             Add(content);
+        }
+
+        void RegisterGraphViewCallbacks()
+        {
+            m_GraphView.groupTitleChanged = OnGroupTitleChanged;
+            m_GraphView.elementsAddedToGroup = OnElementsAddedToGroup;
+            m_GraphView.elementsRemovedFromGroup = OnElementsRemovedFromGroup;
+        }
+
+        void UnregisterGraphViewCallbacks()
+        {
+            m_GraphView.groupTitleChanged = null;
+            m_GraphView.elementsAddedToGroup = null;
+            m_GraphView.elementsRemovedFromGroup = null;
         }
 
         void CreateMasterPreview()
@@ -473,6 +485,8 @@ namespace UnityEditor.ShaderGraph.Drawing
 
         public void HandleGraphChanges()
         {
+            UnregisterGraphViewCallbacks();
+
             if(previewManager.HandleGraphChanges())
             {
                 var nodeList = m_GraphView.Query<MaterialNodeView>().ToList();
@@ -625,7 +639,6 @@ namespace UnityEditor.ShaderGraph.Drawing
                 {
                     materialNodeView.OnModified(ModificationScope.Topological);
                 }
-
             }
 
             UpdateEdgeColors(nodesToUpdate);
@@ -645,6 +658,8 @@ namespace UnityEditor.ShaderGraph.Drawing
             }
 
             UpdateBadges();
+
+            RegisterGraphViewCallbacks();
         }
 
         void UpdateBadges()
