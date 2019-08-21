@@ -460,13 +460,16 @@ namespace UnityEditor.Rendering.Universal
         bool DrawObjectField<T>(SerializedProperty prop, ref T value, GUIContent style)
             where T : UnityEngine.Object
         {
+            var defaultVal = value;
             bool hasChanged = false;
             var controlRect = BeginProperty(prop, style);
 
             EditorGUI.BeginChangeCheck();
             value = (T)EditorGUI.ObjectField(controlRect, style, value, typeof(T), true);
-            if (EditorGUI.EndChangeCheck())
+            if (EditorGUI.EndChangeCheck() && !Equals(defaultVal, value))
+            {
                 hasChanged = true;
+            }
 
             EndProperty();
             return hasChanged;
@@ -481,12 +484,9 @@ namespace UnityEditor.Rendering.Universal
 
             EditorGUI.BeginChangeCheck();
             value = (T)(object)EditorGUI.IntPopup(controlRect, style, (int)(object)value, optionNames, optionValues);
-            if (EditorGUI.EndChangeCheck())
+            if (EditorGUI.EndChangeCheck() && !Equals(defaultVal, value))
             {
-                if (!Equals(defaultVal, value))
-                {
-                    hasChanged = true;
-                }
+                hasChanged = true;
             }
 
             EndProperty();
