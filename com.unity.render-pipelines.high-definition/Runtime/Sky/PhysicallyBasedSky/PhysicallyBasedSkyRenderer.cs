@@ -316,8 +316,8 @@ namespace UnityEngine.Rendering.HighDefinition
                 PrecomputeTables(cmd);
                 m_LastPrecomputedBounce++;
 
-                    // Update the hash for the current bounce.
-                    m_LastPrecomputationParamHash = currentParamHash;
+                // Update the hash for the current bounce.
+                m_LastPrecomputationParamHash = currPrecomputationParamHash;
 
                 // If the sky is realtime, an upcoming update will update the sky lighting. Otherwise we need to force an update.
                 return builtinParams.updateMode != EnvironmentUpdateMode.Realtime;
