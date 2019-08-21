@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fixed an issue causing heap allocation in RenderPipelineManager.DoRenderLoop [case 1156241](https://issuetracker.unity3d.com/issues/lwrp-playerloop-renderpipelinemanager-dot-dorenderloop-internal-gc-dot-alloc-allocates-around-2-dot-6kb-for-every-camera-in-the-scene)
 - Fixed an issue that caused shadow artifacts when using big spot angle values [case 1136165](https://issuetracker.unity3d.com/issues/lwrp-adjusting-spot-angle-on-a-spotlight-produces-shadowmap-artifacts)
 - Fixed an issue that caused self shadowing artifacts when adjusting shadow near plane on spot lights.
+- Fixed an issue that caused specular highlights to disappear when smoothness value was set to 1.0 [case 1161827](https://issuetracker.unity3d.com/issues/lwrp-hdrp-lit-shader-max-smoothness-value-is-incosistent-between-pipelines)
 
 ## [7.0.1] - 2019-07-25
 ### Changed
