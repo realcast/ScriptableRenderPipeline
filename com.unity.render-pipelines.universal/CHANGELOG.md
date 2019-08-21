@@ -23,6 +23,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fixed an issue where materials using `_Time` did not animate in the scene. [1175396](https://issuetracker.unity3d.com/product/unity/issues/guid/1175396/)
 - Fixed an issue where the Particle Lit shader had artifacts when both soft particles and HDR were enabled. [1136285](https://issuetracker.unity3d.com/product/unity/issues/guid/1136285/)
 - Fixed an issue that caused Orthographic camera with far plane set to 0 to span Unity console with errors. [case 1172269](https://issuetracker.unity3d.com/issues/orthographic-camera-with-far-plane-set-to-0-results-in-assertions)
+- Fixed an issue causing heap allocation in RenderPipelineManager.DoRenderLoop [case 1156241](https://issuetracker.unity3d.com/issues/lwrp-playerloop-renderpipelinemanager-dot-dorenderloop-internal-gc-dot-alloc-allocates-around-2-dot-6kb-for-every-camera-in-the-scene)
+- Fixed an issue that caused shadow artifacts when using big spot angle values [case 1136165](https://issuetracker.unity3d.com/issues/lwrp-adjusting-spot-angle-on-a-spotlight-produces-shadowmap-artifacts)
+- Fixed an issue that caused self shadowing artifacts when adjusting shadow near plane on spot lights.
 
 ## [7.0.1] - 2019-07-25
 ### Changed
