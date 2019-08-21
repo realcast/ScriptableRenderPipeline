@@ -475,13 +475,19 @@ namespace UnityEditor.Rendering.Universal
         bool DrawIntPopup<T>(SerializedProperty prop, ref T value, GUIContent style, GUIContent[] optionNames, int[] optionValues)
             where T : Enum
         {
+            var defaultVal = value;
             bool hasChanged = false;
             var controlRect = BeginProperty(prop, style);
 
             EditorGUI.BeginChangeCheck();
             value = (T)(object)EditorGUI.IntPopup(controlRect, style, (int)(object)value, optionNames, optionValues);
             if (EditorGUI.EndChangeCheck())
-                hasChanged = true;
+            {
+                if (!Equals(defaultVal, value))
+                {
+                    hasChanged = true;
+                }
+            }
 
             EndProperty();
             return hasChanged;
