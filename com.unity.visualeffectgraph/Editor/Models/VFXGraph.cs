@@ -16,14 +16,20 @@ namespace UnityEditor.VFX
 
     struct VFXCompilationLog
     {
-        public VFXModel model;
-        public string error;
+        public VFXCompilationLog(string error, VFXModel model = null, MessageType type = MessageType.Error)
+        {
+            this.model = model;
+            this.error = error;
+            this.type = type;
+        }
+        public readonly VFXModel model;
+        public readonly string error;
+        public readonly MessageType type;
     }
 
     class VFXCompilationStatus
     {
-        public List<VFXCompilationLog> errors = new List<VFXCompilationLog>();
-        public List<VFXCompilationLog> warnings = new List<VFXCompilationLog>();
+        public List<VFXCompilationLog> logs = new List<VFXCompilationLog>();
     }
 
     public class VFXCacheManager : EditorWindow
@@ -486,27 +492,6 @@ namespace UnityEditor.VFX
             m_DependentDirty = true;
         }
 
-        struct Error
-        {
-            VFXModel model;
-            string error;
-        }
-
-        class CompilationStatus
-        {
-            List<Error> errors = new List<Error>();
-        }
-
-        VFXCompilationStatus m_CompilationStatus;
-
-        public VFXCompilationStatus compilationStatus
-        {
-            get
-            {
-                return m_CompilationStatus;
-            }
-        }
-
         public void BuildSubgraphDependencies()
         {
             if (m_SubgraphDependencies == null)
@@ -596,13 +581,14 @@ namespace UnityEditor.VFX
             if (m_SubgraphDependencies != null && m_SubgraphDependencies.Contains(subgraph))
             {
                 RecurseSubgraphRecreateCopy(this);
-                m_CompilationStatus = new VFXCompilationStatus();
-                compiledData.Compile(m_CompilationStatus,m_CompilationMode, m_ForceShaderValidation);
+                compiledData.Compile(m_CompilationMode, m_ForceShaderValidation);
                 m_ExpressionGraphDirty = false;
 
                 m_ExpressionValuesDirty = false;
             }
         }
+        public VFXCompilationStatus compilationStatus
+        { get => compiledData.compilationStatus; }
 
         IEnumerable<VFXGraph> GetAllGraphs<T>() where T : VisualEffectObject
         {
@@ -651,8 +637,7 @@ namespace UnityEditor.VFX
 
                     ComputeDataIndices();
 
-                    m_CompilationStatus = new VFXCompilationStatus();
-                    compiledData.Compile(m_CompilationStatus, m_CompilationMode, m_ForceShaderValidation);
+                    compiledData.Compile(m_CompilationMode, m_ForceShaderValidation);
 
                 }
                 else if (m_ExpressionValuesDirty && !m_ExpressionGraphDirty)
@@ -735,5 +720,6 @@ namespace UnityEditor.VFX
         }
 
         private VisualEffectResource m_Owner;
+
     }
 }
