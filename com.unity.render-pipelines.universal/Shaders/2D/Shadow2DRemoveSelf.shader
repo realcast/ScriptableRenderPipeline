@@ -24,12 +24,9 @@ Shader "Hidden/Shadow2DRemoveSelf"
                 Fail Keep
             }
 
-
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            // make fog work
-            #pragma multi_compile_fog
 
             #include "UnityCG.cginc"
 
@@ -61,7 +58,6 @@ Shader "Hidden/Shadow2DRemoveSelf"
             {
                 fixed4 main = tex2D(_MainTex, i.uv);
 
-                // sample the texture
                 fixed4 col;
                 col.r = 0;
                 col.g = 0;

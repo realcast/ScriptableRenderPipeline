@@ -54,8 +54,6 @@ Shader "Hidden/ShadowGroup2D"
             v2f vert (appdata v)
             {
 				v2f o;
-				float softRadius = 0.2;  // This would be equal to the length of the shadow * sin(angle)
-
                 float3 vertexWS = TransformObjectToWorld(v.vertex);  // This should be in world space
                 float3 lightDir = _LightPos - vertexWS;
                 lightDir.z = 0;
@@ -67,7 +65,7 @@ Shader "Hidden/ShadowGroup2D"
                 float3 worldTangent = TransformObjectToWorldDir(v.tangent.xyz);
 
                 float sharedShadowTest = saturate(ceil(dot(lightDirection, worldTangent)));
-                float3 sharedShadowOffset = sharedShadowTest * _LightRadius * -lightDirection;  // Calculates the hard shadow. The soft shadow will be offset from that
+                float3 sharedShadowOffset = sharedShadowTest * _LightRadius * -lightDirection;
 
 				float3 position;
                 position = vertexWS + sharedShadowOffset;
