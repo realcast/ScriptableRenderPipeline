@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
 using System.Text;
+using Utilities;
 using static UnityEngine.Rendering.HighDefinition.RenderPipelineSettings;
 
 namespace UnityEditor.Rendering.HighDefinition
@@ -573,20 +574,10 @@ namespace UnityEditor.Rendering.HighDefinition
             EditorGUILayout.PropertyField(serialized.renderPipelineSettings.supportTransparentDepthPrepass, k_SupportTransparentDepthPrepass);
             EditorGUILayout.PropertyField(serialized.renderPipelineSettings.supportTransparentDepthPostpass, k_SupportTransparentDepthPostpass);
 
-            // Only display the support ray tracing feature if the platform supports it
-#if REALTIME_RAYTRACING_SUPPORT
-            if(UnityEngine.SystemInfo.supportsRayTracing)
+            EditorGUILayout.PropertyField(serialized.renderPipelineSettings.supportRayTracing, k_SupportRaytracing);
+            using (new EditorGUI.DisabledScope(!serialized.renderPipelineSettings.supportRayTracing.boolValue))
             {
-                EditorGUILayout.PropertyField(serialized.renderPipelineSettings.supportRayTracing, k_SupportRaytracing);
-                using (new EditorGUI.DisabledScope(!serialized.renderPipelineSettings.supportRayTracing.boolValue))
-                {
-                    EditorGUILayout.PropertyField(serialized.renderPipelineSettings.supportedRaytracingTier, k_RaytracingTier);
-                }
-            }
-            else
-#endif
-            {
-                serialized.renderPipelineSettings.supportRayTracing.boolValue = false;
+                EditorGUILayout.PropertyField(serialized.renderPipelineSettings.supportedRaytracingTier, k_RaytracingTier);
             }
 
             EditorGUILayout.Space(); //to separate with following sub sections
@@ -612,6 +603,10 @@ namespace UnityEditor.Rendering.HighDefinition
 
         static void Drawer_SectionMaterialUnsorted(SerializedHDRenderPipelineAsset serialized, Editor owner)
         {
+            EditorGUILayout.PropertyField(serialized.materialQualityLevels);
+            var v = EditorGUILayout.EnumPopup(k_CurrentMaterialQualityLevelContent, (MaterialQuality) serialized.currentMaterialQualityLevel.intValue);
+            serialized.currentMaterialQualityLevel.intValue = (int)(object)v;
+            
             EditorGUILayout.PropertyField(serialized.renderPipelineSettings.supportDistortion, k_SupportDistortion);
 
             EditorGUILayout.PropertyField(serialized.renderPipelineSettings.supportSubsurfaceScattering, k_SupportedSSSContent);
@@ -696,9 +691,7 @@ namespace UnityEditor.Rendering.HighDefinition
             AppendSupport(builder, serialized.renderPipelineSettings.supportTransparentBackface, k_SupportTransparentBackface);
             AppendSupport(builder, serialized.renderPipelineSettings.supportTransparentDepthPrepass, k_SupportTransparentDepthPrepass);
             AppendSupport(builder, serialized.renderPipelineSettings.supportTransparentDepthPostpass, k_SupportTransparentDepthPostpass);
-#if REALTIME_RAYTRACING_SUPPORT
             AppendSupport(builder, serialized.renderPipelineSettings.supportRayTracing, k_SupportRaytracing);
-#endif
 
             EditorGUILayout.HelpBox(builder.ToString(), MessageType.Info, wide: true);
         }
