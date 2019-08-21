@@ -410,7 +410,7 @@ namespace UnityEditor.Rendering.Universal
             {
                 if (m_AdditionalCameraDataSO == null)
                 {
-                    m_AdditionalCameraData = camera.gameObject.AddComponent<UniversalAdditionalCameraData>();
+                    m_AdditionalCameraData = Undo.AddComponent<UniversalAdditionalCameraData>(camera.gameObject);
                     init(m_AdditionalCameraData);
                 }
 
