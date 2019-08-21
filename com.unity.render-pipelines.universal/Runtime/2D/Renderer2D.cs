@@ -12,8 +12,8 @@ namespace UnityEngine.Experimental.Rendering.Universal
         PostProcessPass m_FinalPostProcessPass;
 
         RenderTargetHandle m_ColorTargetHandle;
-        RenderTargetHandle m_AfterPostProcessColor;
-        RenderTargetHandle m_ColorGradingLut;
+        RenderTargetHandle m_AfterPostProcessColorHandle;
+        RenderTargetHandle m_ColorGradingLutHandle;
 
         public Renderer2D(Renderer2DData data) : base(data)
         {
@@ -23,29 +23,37 @@ namespace UnityEngine.Experimental.Rendering.Universal
             m_FinalPostProcessPass = new PostProcessPass(RenderPassEvent.AfterRenderingPostProcessing, data.postProcessData);
             m_FinalBlitPass = new FinalBlitPass(RenderPassEvent.AfterRendering, CoreUtils.CreateEngineMaterial(data.blitShader));
 
-            m_AfterPostProcessColor.Init("_AfterPostProcessTexture");
-            m_ColorGradingLut.Init("_InternalGradingLut");
+            m_AfterPostProcessColorHandle.Init("_AfterPostProcessTexture");
+            m_ColorGradingLutHandle.Init("_InternalGradingLut");
         }
 
         public override void Setup(ScriptableRenderContext context, ref RenderingData renderingData)
         {
             ref CameraData cameraData = ref renderingData.cameraData;
-            m_ColorTargetHandle = RenderTargetHandle.CameraTarget;
+            ref var cameraTargetDescriptor = ref cameraData.cameraTargetDescriptor;
             PixelPerfectCamera ppc = cameraData.camera.GetComponent<PixelPerfectCamera>();
-            bool postProcessEnabled = renderingData.cameraData.postProcessEnabled;
-            bool useOffscreenColorTexture = (ppc != null && ppc.useOffscreenRT) || postProcessEnabled || cameraData.isHdrEnabled || cameraData.isSceneViewCamera || !cameraData.isDefaultViewport;
 
-            if (ppc != null && ppc.useOffscreenRT)
+            Vector2Int ppcOffscreenRTSize = ppc != null ? ppc.offscreenRTSize : Vector2Int.zero;
+            bool ppcUsesOffscreenRT = ppcOffscreenRTSize != Vector2Int.zero;
+            bool postProcessEnabled = renderingData.cameraData.postProcessEnabled;
+            bool useOffscreenColorTexture =
+                ppcUsesOffscreenRT || postProcessEnabled || cameraData.isHdrEnabled || cameraData.isSceneViewCamera || !cameraData.isDefaultViewport;
+
+            // Pixel Perfect Camera may request a different RT size than camera VP size.
+            // In that case we need to modify cameraTargetDescriptor here so that all the passes would use the same size.
+            if (ppcUsesOffscreenRT)
             {
-                cameraData.cameraTargetDescriptor.width = ppc.offscreenRTSize.x;
-                cameraData.cameraTargetDescriptor.height = ppc.offscreenRTSize.y;
+                cameraTargetDescriptor.width = ppcOffscreenRTSize.x;
+                cameraTargetDescriptor.height = ppcOffscreenRTSize.y;
             }
 
             if (useOffscreenColorTexture)
             {
                 var filterMode = ppc != null ? ppc.finalBlitFilterMode : FilterMode.Bilinear;
-                m_ColorTargetHandle = CreateOffscreenColorTexture(context, ref cameraData.cameraTargetDescriptor, filterMode);
+                m_ColorTargetHandle = CreateOffscreenColorTexture(context, ref cameraTargetDescriptor, filterMode);
             }
+            else
+                m_ColorTargetHandle = RenderTargetHandle.CameraTarget;
 
             ConfigureCameraTarget(m_ColorTargetHandle.Identifier(), BuiltinRenderTextureType.CameraTarget);
 
@@ -57,29 +65,53 @@ namespace UnityEngine.Experimental.Rendering.Universal
 
             if (postProcessEnabled)
             {
-                m_ColorGradingLutPass.Setup(m_ColorGradingLut);
+                m_ColorGradingLutPass.Setup(m_ColorGradingLutHandle);
                 EnqueuePass(m_ColorGradingLutPass);
 
+                // When using Upscale Render Texture on a Pixel Perfect Camera, we want all post-processing effects done with a low-res RT,
+                // and only upscale the low-res RT to fullscreen when blitting it to camera target.
                 if (ppc != null && ppc.upscaleRT && ppc.isRunning)
                 {
-                    m_PostProcessPass.Setup(cameraData.cameraTargetDescriptor, m_ColorTargetHandle, m_AfterPostProcessColor, RenderTargetHandle.CameraTarget, m_ColorGradingLut, false);
+                    m_PostProcessPass.Setup(
+                        cameraTargetDescriptor,
+                        m_ColorTargetHandle,
+                        m_AfterPostProcessColorHandle,
+                        RenderTargetHandle.CameraTarget,
+                        m_ColorGradingLutHandle,
+                        false
+                    );
                     EnqueuePass(m_PostProcessPass);
 
                     requireFinalBlitPass = true;
-                    finalBlitSourceHandle = m_AfterPostProcessColor;
+                    finalBlitSourceHandle = m_AfterPostProcessColorHandle;
                 }
                 else if (renderingData.cameraData.antialiasing == AntialiasingMode.FastApproximateAntialiasing)
                 {
-                    m_PostProcessPass.Setup(cameraData.cameraTargetDescriptor, m_ColorTargetHandle, m_AfterPostProcessColor, RenderTargetHandle.CameraTarget, m_ColorGradingLut, true);
+                    m_PostProcessPass.Setup(
+                        cameraTargetDescriptor,
+                        m_ColorTargetHandle,
+                        m_AfterPostProcessColorHandle,
+                        RenderTargetHandle.CameraTarget,
+                        m_ColorGradingLutHandle,
+                        true
+                    );
                     EnqueuePass(m_PostProcessPass);
-                    m_FinalPostProcessPass.SetupFinalPass(m_AfterPostProcessColor);
+
+                    m_FinalPostProcessPass.SetupFinalPass(m_AfterPostProcessColorHandle);
                     EnqueuePass(m_FinalPostProcessPass);
 
                     requireFinalBlitPass = false;
                 }
                 else
                 {
-                    m_PostProcessPass.Setup(cameraData.cameraTargetDescriptor, m_ColorTargetHandle, RenderTargetHandle.CameraTarget, RenderTargetHandle.CameraTarget, m_ColorGradingLut, false);
+                    m_PostProcessPass.Setup(
+                        cameraTargetDescriptor,
+                        m_ColorTargetHandle,
+                        RenderTargetHandle.CameraTarget,
+                        RenderTargetHandle.CameraTarget,
+                        m_ColorGradingLutHandle,
+                        false
+                    );
                     EnqueuePass(m_PostProcessPass);
 
                     requireFinalBlitPass = false;
@@ -88,7 +120,7 @@ namespace UnityEngine.Experimental.Rendering.Universal
 
             if (requireFinalBlitPass)
             {
-                m_FinalBlitPass.Setup(cameraData.cameraTargetDescriptor, finalBlitSourceHandle);
+                m_FinalBlitPass.Setup(cameraTargetDescriptor, finalBlitSourceHandle);
                 EnqueuePass(m_FinalBlitPass);
             }
         }

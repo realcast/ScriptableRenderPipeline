@@ -1,8 +1,8 @@
 using System;
+using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Scripting.APIUpdating;
 using UnityEngine.Serialization;
-using UnityEngine.Rendering;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -132,7 +132,6 @@ namespace UnityEngine.Experimental.Rendering.Universal
             }
 
 #if UNITY_EDITOR
-            // Reload missing resources.
             try
             {
                 ResourceReloader.ReloadAllNullIn(this, UniversalRenderPipelineAsset.packagePath);

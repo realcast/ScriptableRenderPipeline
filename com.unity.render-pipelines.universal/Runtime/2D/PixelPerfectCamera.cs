@@ -116,17 +116,6 @@ namespace UnityEngine.Experimental.Rendering.Universal
             }
         }
 
-        internal bool useOffscreenRT
-        {
-            get
-            {
-                if (!isRunning)
-                    return false;
-                else
-                    return m_Internal.useOffscreenRT;
-            }
-        }
-
         internal Vector2Int offscreenRTSize
         {
             get

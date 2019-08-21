@@ -74,8 +74,6 @@ namespace UnityEngine.Experimental.Rendering.Universal
             descriptor.msaaSamples = 1;
             descriptor.dimension = TextureDimension.Tex2D;
 
-            descriptor.width = width;
-            descriptor.height = height;
             cmd.GetTemporaryRT(s_NormalsTarget.id, descriptor, FilterMode.Bilinear);
 
             for (int i = 0; i < s_BlendStyles.Length; ++i)

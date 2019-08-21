@@ -55,7 +55,8 @@ namespace UnityEngine.Rendering.Universal
         // True when this is the very last pass in the pipeline
         bool m_IsFinalPass;
 
-        // If there's a final post process pass after this pass
+        // If there's a final post process pass after this pass.
+        // If yes, Film Grain and Dithering are setup in the final pass, otherwise they are setup in this pass.
         bool m_HasFinalPass;
 
         public PostProcessPass(RenderPassEvent evt, PostProcessData data)
@@ -300,7 +301,7 @@ namespace UnityEngine.Rendering.Universal
                 SetupVignette(m_Materials.uber);
                 SetupColorGrading(cmd, ref renderingData, m_Materials.uber);
 
-                // Only apply dithering & grain if there's not a final pass.
+                // Only apply dithering & grain if there isn't a final pass.
                 SetupGrain(cameraData.camera, m_Materials.uber);
                 SetupDithering(ref cameraData, m_Materials.uber);
 
