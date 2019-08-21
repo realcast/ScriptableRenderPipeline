@@ -6,7 +6,6 @@ namespace UnityEngine.Experimental.Rendering.Universal
 {
     internal class ShadowCasterGroup2DManager
     {
-
         static List<ShadowCasterGroup2D> m_ShadowCasterGroups = null;
 
         public static List<ShadowCasterGroup2D> shadowCasterGroups { get { return m_ShadowCasterGroups; } }

@@ -23,7 +23,6 @@ namespace UnityEditor.Experimental.Rendering.Universal
             }
         }
 
-
         private static class Styles
         {
             public static GUIContent sortingLayerPrefixLabel = EditorGUIUtility.TrTextContent("Target Sorting Layers", "Apply this light to the specified sorting layers.");
@@ -31,7 +30,6 @@ namespace UnityEditor.Experimental.Rendering.Universal
             public static GUIContent sortingLayerNone = EditorGUIUtility.TrTextContent("None");
             public static GUIContent sortingLayerMixed = EditorGUIUtility.TrTextContent("Mixed...");
         }
-
 
         Rect m_SortingLayerDropdownRect = new Rect();
         SortingLayer[] m_AllSortingLayers;
