@@ -95,11 +95,7 @@ namespace UnityEditor.Experimental.Rendering.Universal
             }
 
             EditorGUILayout.PropertyField(m_CastsShadows, Styles.castsShadows);
-
-
-            bool hasShadows = m_UseRendererSilhouette.boolValue || m_CastsShadows.boolValue;
-            if (hasShadows)
-                EditorGUILayout.PropertyField(m_SelfShadows, Styles.selfShadows);
+            EditorGUILayout.PropertyField(m_SelfShadows, Styles.selfShadows);
 
             m_SortingLayerDropDown.OnTargetSortingLayers(serializedObject, targets);
 
