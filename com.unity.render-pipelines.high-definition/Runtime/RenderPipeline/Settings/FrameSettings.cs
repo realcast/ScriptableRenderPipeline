@@ -64,6 +64,7 @@ namespace UnityEngine.Rendering.HighDefinition
      * 
      * 1 - Add an entry in the FrameSettingsField enum with a bit that is not used.
      *     If the type is non boolean, also add a field in FrameSettings (see lodBias).
+     *     Note: running unit test NoDoubleBitIndex will also give you available bit indexes.
      * 
      * 2 - Add a FrameSettingsFieldAttribute to it. (Inspector UI and DebugMenu are generated from this.)
      *     i   - Give the groupIndex that correspond the area you want it displayed in the interface.
