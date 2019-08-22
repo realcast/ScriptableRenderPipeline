@@ -194,7 +194,7 @@ namespace UnityEngine.Rendering.Universal
                 return;
             }
 
-            string tag = k_RenderCameraTag;
+            string tag = (asset.debugLevel >= PipelineDebugLevel.Profiling) ? camera.name: k_RenderCameraTag;
             CommandBuffer cmd = CommandBufferPool.Get(tag);
             using (new ProfilingSample(cmd, tag))
             {
