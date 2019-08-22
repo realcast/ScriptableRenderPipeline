@@ -26,9 +26,7 @@ namespace UnityEngine.Rendering.Universal
         /// </summary>
         /// <param name="baseDescriptor"></param>
         /// <param name="colorHandle"></param>
-        /// <param name="clearBlitTarget"></param>
-        /// <param name="pixelRect"></param>
-        public void Setup(RenderTextureDescriptor baseDescriptor, RenderTargetHandle colorHandle, bool clearBlitTarget = false, Rect pixelRect = new Rect())
+        public void Setup(RenderTextureDescriptor baseDescriptor, RenderTargetHandle colorHandle)
         {
             m_Source = colorHandle;
             m_TargetDimension = baseDescriptor.dimension;
