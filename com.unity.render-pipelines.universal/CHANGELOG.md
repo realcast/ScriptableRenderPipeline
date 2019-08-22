@@ -15,7 +15,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - The Sprite-Lit-Default shader and the Sprite Lit Shader Graph shaders now use the vertex tangents for tangent space calculations.
 - Temporary render textures for cameras rendering to render textures now use the same format and multisampling configuration as camera's target texture.
 - All platforms now use R11G11B10_UFloat format for HDR render textures if supported.
-- `ResourceReloader` now works on non-public fields.
 - Pixel Perfect Camera now allows rendering to a render texture.
 
 ### Fixed
